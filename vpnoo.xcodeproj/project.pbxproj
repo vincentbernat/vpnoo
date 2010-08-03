@@ -14,6 +14,16 @@
 		652A65771201CE2D000F8DD6 /* vpnoo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 652A65761201CE2D000F8DD6 /* vpnoo.icns */; };
 		652BC0681206CC5B004A9262 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652BC0671206CC5B004A9262 /* Security.framework */; };
 		652BC1411206E881004A9262 /* vpnooWinDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1401206E881004A9262 /* vpnooWinDelegate.m */; };
+		652BC1651206F235004A9262 /* HelperTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = 652BC14D1206F148004A9262 /* HelperTool */; };
+		652BC1661206F239004A9262 /* InstallTool in CopyFiles */ = {isa = PBXBuildFile; fileRef = 652BC1571206F168004A9262 /* InstallTool */; };
+		652BC16A1206F2D4004A9262 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1691206F2D4004A9262 /* BetterAuthorizationSampleLib.c */; };
+		652BC16B1206F2D4004A9262 /* BetterAuthorizationSampleLib.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1691206F2D4004A9262 /* BetterAuthorizationSampleLib.c */; };
+		652BC16D1206F2EE004A9262 /* BetterAuthorizationSampleLibInstallTool.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC16C1206F2EE004A9262 /* BetterAuthorizationSampleLibInstallTool.c */; };
+		652BC1711206F389004A9262 /* BASCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1701206F389004A9262 /* BASCommon.c */; };
+		652BC1721206F389004A9262 /* BASCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1701206F389004A9262 /* BASCommon.c */; };
+		652BC1741206FA28004A9262 /* HelperTool.c in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1731206FA28004A9262 /* HelperTool.c */; };
+		652BC180120701C5004A9262 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
+		652BC202120701F2004A9262 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652BC0671206CC5B004A9262 /* Security.framework */; };
 		6571B427120174C7003DA67C /* vpnooController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B426120174C7003DA67C /* vpnooController.m */; };
 		6571B42D120175A1003DA67C /* vpnooAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B42C120175A1003DA67C /* vpnooAppDelegate.m */; };
 		6571B4A81201AC3B003DA67C /* preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B4A71201AC3B003DA67C /* preferences.m */; };
@@ -22,6 +32,37 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		652BC15D1206F1A4004A9262 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 652BC14C1206F148004A9262;
+			remoteInfo = HelperTool;
+		};
+		652BC15F1206F1A7004A9262 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 652BC1561206F168004A9262;
+			remoteInfo = InstallTool;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		652BC1641206F21A004A9262 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				652BC1651206F235004A9262 /* HelperTool in CopyFiles */,
+				652BC1661206F239004A9262 /* InstallTool in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -41,6 +82,14 @@
 		652BC0671206CC5B004A9262 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		652BC13F1206E881004A9262 /* vpnooWinDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vpnooWinDelegate.h; sourceTree = "<group>"; };
 		652BC1401206E881004A9262 /* vpnooWinDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vpnooWinDelegate.m; sourceTree = "<group>"; };
+		652BC14D1206F148004A9262 /* HelperTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HelperTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		652BC1571206F168004A9262 /* InstallTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = InstallTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		652BC1691206F2D4004A9262 /* BetterAuthorizationSampleLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLib.c; sourceTree = "<group>"; };
+		652BC16C1206F2EE004A9262 /* BetterAuthorizationSampleLibInstallTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BetterAuthorizationSampleLibInstallTool.c; sourceTree = "<group>"; };
+		652BC16E1206F303004A9262 /* BetterAuthorizationSampleLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BetterAuthorizationSampleLib.h; sourceTree = "<group>"; };
+		652BC16F1206F389004A9262 /* BASCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BASCommon.h; sourceTree = "<group>"; };
+		652BC1701206F389004A9262 /* BASCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BASCommon.c; sourceTree = "<group>"; };
+		652BC1731206FA28004A9262 /* HelperTool.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HelperTool.c; sourceTree = "<group>"; };
 		6571B425120174C7003DA67C /* vpnooController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vpnooController.h; sourceTree = "<group>"; };
 		6571B426120174C7003DA67C /* vpnooController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vpnooController.m; sourceTree = "<group>"; };
 		6571B42C120175A1003DA67C /* vpnooAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vpnooAppDelegate.m; sourceTree = "<group>"; };
@@ -53,6 +102,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		652BC14B1206F148004A9262 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652BC202120701F2004A9262 /* Security.framework in Frameworks */,
+				652BC180120701C5004A9262 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		652BC1551206F168004A9262 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -107,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* vpnoo.app */,
+				652BC14D1206F148004A9262 /* HelperTool */,
+				652BC1571206F168004A9262 /* InstallTool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,6 +195,12 @@
 			children = (
 				256AC3F00F4B6AF500CF3369 /* vpnoo_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				652BC16E1206F303004A9262 /* BetterAuthorizationSampleLib.h */,
+				652BC16C1206F2EE004A9262 /* BetterAuthorizationSampleLibInstallTool.c */,
+				652BC1691206F2D4004A9262 /* BetterAuthorizationSampleLib.c */,
+				652BC16F1206F389004A9262 /* BASCommon.h */,
+				652BC1701206F389004A9262 /* BASCommon.c */,
+				652BC1731206FA28004A9262 /* HelperTool.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -157,6 +230,38 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		652BC14C1206F148004A9262 /* HelperTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 652BC1531206F167004A9262 /* Build configuration list for PBXNativeTarget "HelperTool" */;
+			buildPhases = (
+				652BC14A1206F148004A9262 /* Sources */,
+				652BC14B1206F148004A9262 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HelperTool;
+			productName = HelperTool;
+			productReference = 652BC14D1206F148004A9262 /* HelperTool */;
+			productType = "com.apple.product-type.tool";
+		};
+		652BC1561206F168004A9262 /* InstallTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 652BC15B1206F186004A9262 /* Build configuration list for PBXNativeTarget "InstallTool" */;
+			buildPhases = (
+				652BC1541206F168004A9262 /* Sources */,
+				652BC1551206F168004A9262 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InstallTool;
+			productName = InstallTool;
+			productReference = 652BC1571206F168004A9262 /* InstallTool */;
+			productType = "com.apple.product-type.tool";
+		};
 		8D1107260486CEB800E47090 /* vpnoo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "vpnoo" */;
@@ -164,10 +269,13 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				652BC1641206F21A004A9262 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				652BC15E1206F1A4004A9262 /* PBXTargetDependency */,
+				652BC1601206F1A7004A9262 /* PBXTargetDependency */,
 			);
 			name = vpnoo;
 			productInstallPath = "$(HOME)/Applications";
@@ -188,6 +296,8 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* vpnoo */,
+				652BC14C1206F148004A9262 /* HelperTool */,
+				652BC1561206F168004A9262 /* InstallTool */,
 			);
 		};
 /* End PBXProject section */
@@ -208,6 +318,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		652BC14A1206F148004A9262 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652BC16B1206F2D4004A9262 /* BetterAuthorizationSampleLib.c in Sources */,
+				652BC1721206F389004A9262 /* BASCommon.c in Sources */,
+				652BC1741206FA28004A9262 /* HelperTool.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		652BC1541206F168004A9262 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				652BC16D1206F2EE004A9262 /* BetterAuthorizationSampleLibInstallTool.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,10 +347,25 @@
 				6509995A1202B7E90090E19F /* vpnHandler.m in Sources */,
 				650999BF1202CD570090E19F /* utils.m in Sources */,
 				652BC1411206E881004A9262 /* vpnooWinDelegate.m in Sources */,
+				652BC16A1206F2D4004A9262 /* BetterAuthorizationSampleLib.c in Sources */,
+				652BC1711206F389004A9262 /* BASCommon.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		652BC15E1206F1A4004A9262 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 652BC14C1206F148004A9262 /* HelperTool */;
+			targetProxy = 652BC15D1206F1A4004A9262 /* PBXContainerItemProxy */;
+		};
+		652BC1601206F1A7004A9262 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 652BC1561206F168004A9262 /* InstallTool */;
+			targetProxy = 652BC15F1206F1A7004A9262 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -244,6 +387,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		652BC14F1206F149004A9262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = HelperTool;
+			};
+			name = Debug;
+		};
+		652BC1501206F149004A9262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = HelperTool;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		652BC1591206F168004A9262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = InstallTool;
+			};
+			name = Debug;
+		};
+		652BC15A1206F168004A9262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = InstallTool;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -306,6 +509,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		652BC1531206F167004A9262 /* Build configuration list for PBXNativeTarget "HelperTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				652BC14F1206F149004A9262 /* Debug */,
+				652BC1501206F149004A9262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		652BC15B1206F186004A9262 /* Build configuration list for PBXNativeTarget "InstallTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				652BC1591206F168004A9262 /* Debug */,
+				652BC15A1206F168004A9262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "vpnoo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

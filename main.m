@@ -2,13 +2,25 @@
 //  main.m
 //  vpnoo
 //
-//  Created by Vincent Bernat on 7/29/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
+#include "BetterAuthorizationSampleLib.h"
+#include "BASCommon.h"
+
+AuthorizationRef gAuth;
 
 int main(int argc, char *argv[])
 {
+    OSStatus junk;
+    junk = AuthorizationCreate(NULL,
+                               NULL,
+                               kAuthorizationFlagDefaults,
+                               &gAuth);
+    assert(junk == noErr);
+    assert(gAuth != NULL);
+    BASSetDefaultRules(gAuth,
+                       kVpnooCommandSet,
+                       CFBundleGetIdentifier(CFBundleGetMainBundle()),
+                       NULL);
     return NSApplicationMain(argc,  (const char **) argv);
 }
