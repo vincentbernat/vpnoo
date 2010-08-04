@@ -11,6 +11,7 @@
 		6509995A1202B7E90090E19F /* vpnHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 650999591202B7E90090E19F /* vpnHandler.m */; };
 		6509996C1202B97C0090E19F /* vpn.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6509996B1202B97C0090E19F /* vpn.plist */; };
 		650999BF1202CD570090E19F /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 650999BE1202CD570090E19F /* utils.m */; };
+		6518156C1209679100044973 /* phase1 in Resources */ = {isa = PBXBuildFile; fileRef = 6518156B1209679100044973 /* phase1 */; };
 		652A65771201CE2D000F8DD6 /* vpnoo.icns in Resources */ = {isa = PBXBuildFile; fileRef = 652A65761201CE2D000F8DD6 /* vpnoo.icns */; };
 		652BC0681206CC5B004A9262 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 652BC0671206CC5B004A9262 /* Security.framework */; };
 		652BC1411206E881004A9262 /* vpnooWinDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1401206E881004A9262 /* vpnooWinDelegate.m */; };
@@ -78,6 +79,7 @@
 		6509996B1202B97C0090E19F /* vpn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = vpn.plist; sourceTree = "<group>"; };
 		650999BD1202CD570090E19F /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		650999BE1202CD570090E19F /* utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = utils.m; sourceTree = "<group>"; };
+		6518156B1209679100044973 /* phase1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = phase1; sourceTree = "<group>"; };
 		652A65761201CE2D000F8DD6 /* vpnoo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = vpnoo.icns; sourceTree = "<group>"; };
 		652BC0671206CC5B004A9262 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		652BC13F1206E881004A9262 /* vpnooWinDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vpnooWinDelegate.h; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6518156B1209679100044973 /* phase1 */,
 				652A65761201CE2D000F8DD6 /* vpnoo.icns */,
 				8D1107310486CEB800E47090 /* vpnoo-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -312,6 +315,7 @@
 				652A65771201CE2D000F8DD6 /* vpnoo.icns in Resources */,
 				6509996C1202B97C0090E19F /* vpn.plist in Resources */,
 				659D11BD1203146D00ACD385 /* racoon.conf in Resources */,
+				6518156C1209679100044973 /* phase1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,18 +23,19 @@ void VPNLog(NSString *detail) {
 
 @implementation vpnHandler
 
-- (NSDictionary *)vpnList {
-    NSString *plist = [[NSBundle mainBundle] pathForResource: @"vpn" ofType: @"plist"];
-    return [NSDictionary dictionaryWithContentsOfFile: plist];
-}
-
 - (id)init {
     self = [super init];
     if (self) {
-        connected = NO;
-        connecting = NO;
+        state = VPNSTATE_DISCONNECTED;
     }
     return self;
+}
+
+#pragma mark *** VPN list
+
+- (NSDictionary *)vpnList {
+    NSString *plist = [[NSBundle mainBundle] pathForResource: @"vpn" ofType: @"plist"];
+    return [NSDictionary dictionaryWithContentsOfFile: plist];
 }
 
 // Return a list of available VPN to connect to
@@ -50,6 +51,8 @@ void VPNLog(NSString *detail) {
     // Then return the names as an array
     return [plistData allKeys];
 }
+
+#pragma mark **** Template building
 
 // Return the IP of a VPN from its name
 - (NSString *)vpnIpFrom: (NSString *)name {
@@ -96,16 +99,7 @@ void VPNLog(NSString *detail) {
     return YES;
 }
 
-// Fake method to tell that we connected successfully
-- (void)connected:(NSTimer *)timer {
-    if (!connecting || connected) {
-        return;
-    }
-    connected = YES;
-    connecting = NO;
-    NSLog(@"vpn connected");
-    VPNLog(@"Connected!");
-}
+#pragma mark **** Helper
 
 // Issue an helper request and return the dictionary if it was successful
 - (NSDictionary *)helperRequest: (NSDictionary *)request {
@@ -258,53 +252,96 @@ void VPNLog(NSString *detail) {
     return (response != NULL);
 }
 
-// Connect to a given VPN using the appropriate login and password
-- (void)connectTo:(NSString *)name withLogin: (NSString *)login andPassword: (NSString *)password {
-    if (connected || connecting) {
+#pragma mark **** Connection
+
+// Initiate the VPN with racoonctl
+// vpn is an array [name, login, password]
+- (void)startVpnFor: (NSTimer *)timer {
+    if (state != VPNSTATE_CONNECTING) {
         return;
     }
-    connecting = YES;
-    if (![self buildTemplateFor: name withLogin: login andPassword: password]) {
+    state = VPNSTATE_CONNECTED;
+    NSLog(@"vpn connected");
+    VPNLog(@"Connected!");
+}
+
+// Start racoon and schedule the next steps
+// vpn is an array [name, login, password]
+- (void)startRacoonFor: (NSTimer *)timer {
+    if (state != VPNSTATE_CONNECTING) {
         return;
     }
-    NSLog(@"connecting to `%@' using login `%@'", name, login);
-    VPNLog(@"Connecting to VPN...");
     if (![self handleRacoonFor: [NSNumber numberWithInt: kVpnooStartRacoon]]) {
-        connecting = NO;
+        state = VPNSTATE_DISCONNECTED;
         VPNLog(@"Unable to start racoon daemon. See logs for more details.");
         return;
     }
-    // We emulate a small wait instead of really connecting
-    [NSTimer scheduledTimerWithTimeInterval: 1.0
+    
+    VPNLog(@"Connecting to VPN...");
+    // Use a timer to let the interface refresh
+    [NSTimer scheduledTimerWithTimeInterval: 0.1
                                      target: self
-                                   selector: @selector(connected:)
-                                   userInfo: nil
+                                   selector: @selector(startVpnFor:)
+                                   userInfo: [timer userInfo]
                                     repeats: NO];
 }
 
-// Disconnect from the running VPN
-- (void)disconnect {
-    if (!connected && !connecting) {
+// Connect to a given VPN using the appropriate login and password
+- (void)connectTo:(NSString *)name withLogin: (NSString *)login andPassword: (NSString *)password {
+    if (state != VPNSTATE_DISCONNECTED) {
         return;
     }
-    connected = NO;
-    connecting = NO;
-    NSLog(@"disconnect from VPN");
+    if (![self buildTemplateFor: name withLogin: login andPassword: password]) {
+        return;
+    }
+    state = VPNSTATE_CONNECTING;
+    NSLog(@"connecting to `%@' using login `%@'", name, login);
+    VPNLog(@"Initializing VPN...");
+    // Use a timer to let the interface refresh
+    [NSTimer scheduledTimerWithTimeInterval: 0.1
+                                     target: self
+                                   selector: @selector(startRacoonFor:)
+                                   userInfo: [NSArray arrayWithObjects: name, login, password, nil]
+                                    repeats: NO];
+}
+
+#pragma mark **** Deconnection
+
+- (void)stopRacoonFor: (NSTimer*)timer {
+    if (state == VPNSTATE_DISCONNECTED) {
+        return;
+    }
     if (![self handleRacoonFor: [NSNumber numberWithInt: kVpnooStopRacoon]]) {
+        state = VPNSTATE_DISCONNECTED;
         VPNLog(@"Disconnected (but...)");
     } else {
+        state = VPNSTATE_DISCONNECTED;
         VPNLog(@"Disconnected.");
     }
 }
 
-// Tell if we are currently connected
-- (BOOL)isConnected {
-    return connected;
+// Disconnect from the running VPN
+- (void)disconnect {
+    if ((state != VPNSTATE_CONNECTING) && (state != VPNSTATE_CONNECTED)) {
+        return;
+    }
+    state = VPNSTATE_DISCONNECTING;
+    NSLog(@"disconnect from VPN");
+    VPNLog(@"Disconnecting...");
+    // Use a timer to let the interface refresh
+    [NSTimer scheduledTimerWithTimeInterval: 0.1
+                                     target: self
+                                   selector: @selector(stopRacoonFor:)
+                                   userInfo: nil
+                                    repeats: NO];
 }
 
-// Tell if we are currently trying to connect
-- (BOOL)isConnecting {
-    return connecting;
+// Return the current (external) state
+- (enum VpnState)state {
+    // state contains both external state and internal state.
+    // External state = state % 100
+    // Internal state = state DIV 100
+    return state % 100;
 }
 
 @end

@@ -16,12 +16,14 @@
     IBOutlet NSButton *savePassword;
     IBOutlet NSButton *connectButton;
     IBOutlet NSButton *disconnectButton;
-    IBOutlet NSWindow *window;
     IBOutlet vpnHandler *vpn;
     IBOutlet preferences *prefs;
+    BOOL closeOnDisconnect;
 }
 
 - (IBAction)connect:(id)sender;
 - (IBAction)disconnect:(id)sender;
+
+- (void)closeOnDisconnect;
 
 @end
