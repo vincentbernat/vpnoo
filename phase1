@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# Configure a new SA based on what was received during ISAKMP CFG mode.
+# This script supports:
+#  - IPv4 only
+#  - Split network only
+#  - no DNS handling
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+DEFAULT_GW=$(netstat -rn | awk '($1 == "default") {print $2}')
+IF=$(netstat -rn|awk '($1 == "default"){print $6}')
+if [ "${REMOTE_PORT}" = "4500" ]; then
+    # NAT-T
+    LOCAL="${LOCAL_ADDR}[${LOCAL_PORT}]"
+    REMOTE="${REMOTE_ADDR}[${REMOTE_PORT}]"
+else
+    # Non NAT-T
+    LOCAL="${LOCAL_ADDR}"
+    REMOTE="${REMOTE_ADDR}"
+fi
+
+# Print out some information if the script is run manually
+cat <<EOF
+            Date: $(date)
+            Args: $@
+           Local: ${LOCAL}
+          Remote: ${REMOTE}
+ Default gateway: ${DEFAULT_GW} via ${IF}
+Internal address: ${INTERNAL_ADDR4}/${INTERNAL_CIDR4}
+   Split network: ${SPLIT_INCLUDE:-not present}
+             DNS: ${INTERNAL_DNS4_LIST:-not present}
+
+EOF
+
+# When no split network is provided, we consider we want the tunnel to
+[ -n "${SPLIT_INCLUDE}" ] || {
+    echo "No split network directive. No configuration possible"
+    exit 2
+}
+
+mask2num() {
+   echo obase=2.$1|tr . \;|bc|tr -d 0\\n|wc -c | tr -d '[:blank:]'
+}
+
+# The script should be called with 'phase1_up' or 'phase1_down' as
+# first argument
+case "$1" in
+    "phase1_up")
+	echo "Setup ${IF} with IP ${INTERNAL_ADDR4}/${INTERNAL_CIDR4}"
+	ifconfig ${IF} alias ${INTERNAL_ADDR4} netmask ${INTERNAL_NETMASK4}
+	for NET in ${SPLIT_INCLUDE}; do
+	   echo "Setup route and policy for ${NET}"
+	   NETMASK=$(mask2num $(echo ${NET} | sed 's+.*/++'))
+	   NET=$(echo ${NET} | sed 's+/.*++')
+	   route add ${NET}/${NETMASK} ${DEFAULT_GW} -ifa ${INTERNAL_ADDR4}
+	   cat <<EOF | setkey -c
+spdadd ${INTERNAL_ADDR4}/32[any] ${NET}/${NETMASK}[any] any
+       -P out ipsec esp/tunnel/${LOCAL}-${REMOTE}/require;
+spdadd ${NET}/${NETMASK}[any] ${INTERNAL_ADDR4}[any] any
+       -P in ipsec esp/tunnel/${REMOTE}-${LOCAL}/require;
+EOF
+	done
+	;;
+    "phase1_down")
+	echo "Remove IP ${INTERNAL_ADDR4}/${INTERNAL_CIDR4} from ${IF}"
+	ifconfig ${IF} delete ${INTERNAL_ADDR4} netmask ${INTERNAL_NETMASK4}
+	for NET in ${SPLIT_INCLUDE}; do
+	   echo "Remove route an policy for ${NET}"
+	   NETMASK=$(mask2num $(echo ${NET} | sed 's+.*/++'))
+	   NET=$(echo ${NET} | sed 's+/.*++')
+	   route delete ${NET}/${NETMASK} ${DEFAULT_GW}
+	   cat <<EOF | setkey -c
+deleteall ${REMOTE_ADDR} ${LOCAL_ADDR} esp;
+deleteall ${LOCAL_ADDR} ${REMOTE_ADDR} esp; 
+spddelete ${INTERNAL_ADDR4}/32[any] ${NET}/${NETMASK}[any] any
+       -P out ipsec esp/tunnel/${LOCAL}-${REMOTE}/require;
+spddelete ${NET}/${NETMASK}[any] ${INTERNAL_ADDR4}[any] any
+       -P in ipsec esp/tunnel/${REMOTE}-${LOCAL}/require;
+EOF
+	done
+	;;
+    *)
+	cat <<EOF
+This script should be called with either 'phase1_up' or 'phase1_down'
+as first argument.
+EOF
+	exit 1
+	;;
+esac
+
