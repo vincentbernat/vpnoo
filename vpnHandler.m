@@ -268,6 +268,25 @@ void VPNLog(NSString *detail) {
     }
 }
 
+// Extract from data recorded by racoonctl the line whose suffix is match
+// The suffix is removed from the result
+- (NSString*)extractDataBeginningWith: (NSString*)match {
+    NSEnumerator *lines;
+    NSString *line;
+    if (!racoonctlBuffer) {
+        return nil;
+    }
+    lines = [[racoonctlBuffer componentsSeparatedByCharactersInSet: [NSCharacterSet newlineCharacterSet]]
+             objectEnumerator];
+    while (line = [lines nextObject]) {
+        if ([line hasPrefix: match]) {
+            return [line substringFromIndex: [match length]];
+        }
+    }
+    // No match
+    return nil;
+}
+
 // We have received some data from racoonctl
 - (void)gotDataFromRacoonctl: (NSNotification *)notification {
     NSDictionary *dic = [notification userInfo];
@@ -278,33 +297,38 @@ void VPNLog(NSString *detail) {
     }
     // We buffer data received
     if ([data length] == 0) {
-        NSRange start, end;
-        NSString *ip = nil;
         // Let's check our buffer data to know if this is a success or not. We search for "Bound to address"
         NSLog(@"available data from racoonctl:\n%@", racoonctlBuffer);
-        start = [racoonctlBuffer rangeOfString: @"Bound to address "];
-        if (start.location == NSNotFound) {
-            [self disconnectWithError: @"An error occurred while connecting. See logs for more details."];
+        NSString *ip = [self extractDataBeginningWith: @"Bound to address "];
+        if (!ip) {
+            // We got an error, let's try to find which
+            NSString *error = [self extractDataBeginningWith: @"Error: "];
+            if (!error) {
+                [self disconnectWithError: @"An error occurred while connecting. See logs for more details."];
+                return;
+            }
+            NSDictionary *reasons = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     @"Your credentials are incorrect or you don't have right to connect to this system.",
+                                     @"Xauth exchange failed",
+                                     @"The first phase has failed. This may be a certificate problem.",
+                                     @"Peer failed phase 1 authentication (certificate problem?)",
+                                     @"The remote end did not agree with the security parameters.",
+                                     @"Peer failed phase 1 initiation (proposal problem?)",
+                                     @"The remote end did not answer our sollicitations.",
+                                     @"Peer not responsing",
+                                     nil];
+            NSString *reason = [reasons objectForKey: error];
+            if (reason) {
+                [self disconnectWithError: [NSString stringWithFormat: @"Unable to connect to the VPN. %@", reason]];
+                return;
+            }
+            [self disconnectWithError:
+             [NSString stringWithFormat: @"Unable to connect to the VPN. We got this error: %@", error]];
             return;
         }
-        // Extract the IP address
-        end = [racoonctlBuffer rangeOfString: @"\n"
-                                     options: 0
-                                       range: NSMakeRange(start.location + start.length,
-                                                          [racoonctlBuffer length] -
-                                                          start.location - start.length)];
-        if (end.location != NSNotFound) {
-            ip = [racoonctlBuffer substringWithRange: NSMakeRange(start.location + start.length,
-                                                                  end.location - start.location - start.length)];
-        }
         state = VPNSTATE_CONNECTED;
-        if (!ip) {
-            NSLog(@"vpn connected");
-            VPNLog(@"Connected!");
-        } else {
-            NSLog(@"vpn connected with IP %@", ip);
-            VPNLog([NSString stringWithFormat: @"Connected with IP %@.", ip]);
-        }
+        NSLog(@"vpn connected with IP %@", ip);
+        VPNLog([NSString stringWithFormat: @"Connected with IP %@.", ip]);
         // racoonctl died
         [self killRacoonctl];
         return;
