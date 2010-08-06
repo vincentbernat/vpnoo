@@ -23,14 +23,6 @@ void VPNLog(NSString *detail) {
 
 @implementation vpnHandler
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        state = VPNSTATE_DISCONNECTED;
-    }
-    return self;
-}
-
 #pragma mark *** VPN list
 
 - (NSDictionary *)vpnList {
@@ -160,18 +152,16 @@ void VPNLog(NSString *detail) {
         default:
             alertResult = NSRunInformationalAlertPanel(
                 @"Helper tool failed",
-                @"The helper tool needed to execute priviledged operations did not succeed.",
-                @"Retry", @"Do nothing", @"Reinstall the helper tool", NULL);
+                @"The helper tool needed to execute priviledged operations did not succeed. Please, look at the logs to find possible causes.",
+                @"Do nothing", @"Reinstall the helper tool", NULL);
             if (alertResult == NSAlertDefaultReturn) {
-                return [self helperRequest: request];
-            }
-            if (alertResult == NSAlertOtherReturn) {
+                alertResult = NSAlertAlternateReturn;
+            } else if (alertResult == NSAlertAlternateReturn) {
                 alertResult = NSAlertDefaultReturn;
             }
             break;
     }
     if (alertResult != NSAlertDefaultReturn) {
-        NSLog(@"installation of helper tool has been refused");
         return NULL;
     }
     err = BASFixFailure(gAuth,
@@ -254,15 +244,144 @@ void VPNLog(NSString *detail) {
 
 #pragma mark **** Connection
 
-// Initiate the VPN with racoonctl
-// vpn is an array [name, login, password]
-- (void)startVpnFor: (NSTimer *)timer {
+// Kill racoonctl
+- (void)killRacoonctl {
+    // Let racoonctl die
+    if (racoonctlOutput) {
+        [racoonctlOutput closeFile];
+        [racoonctlOutput release];
+        racoonctlOutput = nil;
+    }
+    if (racoonctlControl) {
+        [racoonctlControl closeFile];
+        [racoonctlControl release];
+        racoonctlControl = nil;
+    }
+    if (racoonctlTimeout) {
+        [racoonctlTimeout invalidate];
+        [racoonctlTimeout release];
+        racoonctlTimeout = nil;
+    }
+    if (racoonctlBuffer) {
+        [racoonctlBuffer release];
+        racoonctlBuffer = nil;
+    }
+}
+
+// We have received some data from racoonctl
+- (void)gotDataFromRacoonctl: (NSNotification *)notification {
+    NSDictionary *dic = [notification userInfo];
+    NSData *data = [dic objectForKey: NSFileHandleNotificationDataItem];
+    NSString *string;
     if (state != VPNSTATE_CONNECTING) {
         return;
     }
-    state = VPNSTATE_CONNECTED;
-    NSLog(@"vpn connected");
-    VPNLog(@"Connected!");
+    // We buffer data received
+    if ([data length] == 0) {
+        NSRange start, end;
+        NSString *ip = nil;
+        // Let's check our buffer data to know if this is a success or not. We search for "Bound to address"
+        NSLog(@"available data from racoonctl:\n%@", racoonctlBuffer);
+        start = [racoonctlBuffer rangeOfString: @"Bound to address "];
+        if (start.location == NSNotFound) {
+            [self disconnectWithError: @"An error occurred while connecting. See logs for more details."];
+            return;
+        }
+        // Extract the IP address
+        end = [racoonctlBuffer rangeOfString: @"\n"
+                                     options: 0
+                                       range: NSMakeRange(start.location + start.length,
+                                                          [racoonctlBuffer length] -
+                                                          start.location - start.length)];
+        if (end.location != NSNotFound) {
+            ip = [racoonctlBuffer substringWithRange: NSMakeRange(start.location + start.length,
+                                                                  end.location - start.location - start.length)];
+        }
+        state = VPNSTATE_CONNECTED;
+        if (!ip) {
+            NSLog(@"vpn connected");
+            VPNLog(@"Connected!");
+        } else {
+            NSLog(@"vpn connected with IP %@", ip);
+            VPNLog([NSString stringWithFormat: @"Connected with IP %@.", ip]);
+        }
+        // racoonctl died
+        [self killRacoonctl];
+        return;
+    }
+    // Try to convert to an NSString
+    string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    if (string == nil) {
+        string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
+    }
+    if (string == nil) {
+        string = [[NSString alloc] initWithData: data encoding: NSISOLatin1StringEncoding];
+    }
+    if (string == nil) {
+        NSLog(@"Received the following undecodable data from racoonctl:\n%@", data);
+    } else {
+        [string autorelease];
+        [racoonctlBuffer appendString: string];
+    }
+    // Reschedule data
+    [[notification object] readInBackgroundAndNotify];
+}
+
+// Got a timeout from VPN
+- (void)vpnTimeout: (NSTimer *)timer {
+    if (state != VPNSTATE_CONNECTING) {
+        return;
+    }
+    NSLog(@"got a timeout while connecting. Disconnecting");
+    NSLog(@"available data from racoonctl:\n%@", racoonctlBuffer);
+    [self killRacoonctl];
+    [self disconnectWithError: @"Connection timeout. See logs for more details."];
+}
+
+// Initiate the VPN with racoonctl
+// vpn is an array [name, login, password]
+- (void)startVpnFor: (NSTimer *)timer {
+    NSDictionary *response;
+    NSDictionary *request;
+    NSArray *vpn;
+    NSArray *descs;
+    int desc;
+    
+    if (state != VPNSTATE_CONNECTING) {
+        return;
+    }
+    vpn = [timer userInfo];
+    request = [NSDictionary dictionaryWithObjectsAndKeys:
+               @kVpnooStartRacoonCtlCommand, @kBASCommandKey,
+               [NSNumber numberWithInt: kVpnooVpnConnect], @kVpnooStartRacoonCtlAction,
+               [self vpnIpFrom: [vpn objectAtIndex: 0]], @kVpnooStartRacoonCtlVpn,
+               [vpn objectAtIndex: 1], @kVpnooStartRacoonCtlLogin,
+               [vpn objectAtIndex: 2], @kVpnooStartRacoonCtlPassword,
+               [[utils getWorkPath] stringByAppendingPathComponent: @"racoon.sock"], @kVpnooStartRacoonCtlSocket,
+               nil];
+    response = [self helperRequest: request];
+    if (response == NULL) {
+        [self disconnectWithError: @"Unable to request VPN creation. See logs for more details."];
+        return;
+    }
+    
+    // We need to retrive the file descriptors "master" and "control"
+    descs = [response objectForKey: @kBASDescriptorArrayKey];
+    desc = [(NSNumber*) [descs objectAtIndex: 0] intValue];
+    racoonctlOutput = [[NSFileHandle alloc] initWithFileDescriptor: desc];
+    desc = [(NSNumber*) [descs objectAtIndex: 1] intValue];
+    racoonctlControl = [[NSFileHandle alloc] initWithFileDescriptor: desc];
+    
+    // Watch racoonctl output
+    racoonctlBuffer = [[NSMutableString alloc] initWithCapacity: 1024];
+    [racoonctlOutput readInBackgroundAndNotify];
+    // And add a timer if it takes too long
+    racoonctlTimeout = [[NSTimer scheduledTimerWithTimeInterval: 10
+                                                         target: self
+                                                       selector: @selector(vpnTimeout:)
+                                                       userInfo: nil
+                                                        repeats: NO] retain];
+
 }
 
 // Start racoon and schedule the next steps
@@ -311,17 +430,29 @@ void VPNLog(NSString *detail) {
     if (state == VPNSTATE_DISCONNECTED) {
         return;
     }
+
+    // We should terminate gracefully the VPN with racoonctl vpn-disconnect.
+    // This is not really mandatory since stopping racoon also gracefully stops the VPN
+    [self killRacoonctl]; // Maybe we are connecting
     if (![self handleRacoonFor: [NSNumber numberWithInt: kVpnooStopRacoon]]) {
         state = VPNSTATE_DISCONNECTED;
-        VPNLog(@"Disconnected (but...)");
+        if (![timer userInfo]) {
+            VPNLog(@"Disconnected (but...)");
+        } else {
+            VPNLog([timer userInfo]);
+        }
     } else {
         state = VPNSTATE_DISCONNECTED;
-        VPNLog(@"Disconnected.");
+        if (![timer userInfo]) {
+            VPNLog(@"Disconnected.");
+        } else {
+            VPNLog([timer userInfo]);
+        }
     }
 }
 
 // Disconnect from the running VPN
-- (void)disconnect {
+- (void)disconnectWithError: (NSString*)error {
     if ((state != VPNSTATE_CONNECTING) && (state != VPNSTATE_CONNECTED)) {
         return;
     }
@@ -332,8 +463,12 @@ void VPNLog(NSString *detail) {
     [NSTimer scheduledTimerWithTimeInterval: 0.1
                                      target: self
                                    selector: @selector(stopRacoonFor:)
-                                   userInfo: nil
+                                   userInfo: error
                                     repeats: NO];
+}
+
+- (void)disconnect {
+    [self disconnectWithError: nil];
 }
 
 // Return the current (external) state
@@ -342,6 +477,22 @@ void VPNLog(NSString *detail) {
     // External state = state % 100
     // Internal state = state DIV 100
     return state % 100;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        state = VPNSTATE_DISCONNECTED;
+        racoonctlOutput = nil;
+        racoonctlControl = nil;
+        racoonctlTimeout = nil;
+        racoonctlBuffer = nil;
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(gotDataFromRacoonctl:)
+                                                     name: NSFileHandleReadCompletionNotification
+                                                   object: nil];
+    }
+    return self;
 }
 
 @end
