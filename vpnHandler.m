@@ -195,7 +195,7 @@ void VPNLog(NSString *detail) {
     
     // We need to compute the checksum of our own helper tool
     toolpath = [[NSBundle mainBundle] pathForAuxiliaryExecutable: @"HelperTool"];
-    hash = hashFile([toolpath cStringUsingEncoding: NSUTF8StringEncoding]);
+    hash = hashFile([toolpath fileSystemRepresentation]);
     if (hash == 0) {
         NSLog(@"unable to compute hash for included helper tool");
         return NO;
