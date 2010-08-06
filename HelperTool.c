@@ -162,11 +162,11 @@ static OSStatus KillRacoon(aslclient asl,
     int      count;       // Number of character read from lsof
     int      status;      // Child status
     char    *conv;        // Used by strtol
-    int      iterations = 0; // Number of processes killed
+    int      iterations = 0; // Number of processes killed * 5 (we try to kill on 1 interaction out of 5)
     char *const command[] = { "lsof", "-Pan", "-i", "udp:500", "-Fp" };
 
     while (1) {
-        if (iterations++ > 6) {
+        if (iterations++ > 30) {
             err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, "too many racoon process or racoon not killable");
             assert(err == 0);
             return BASErrnoToOSStatus(ETIME);
@@ -258,10 +258,12 @@ static OSStatus KillRacoon(aslclient asl,
                     assert(err == 0);
                     return BASErrnoToOSStatus(EINVAL);
                 }
-                err = asl_log(asl, aslMsg, ASL_LEVEL_INFO, "racoon PID is %d. Kill it and wait a bit", racoon);
-                assert(err == 0);
-                kill(racoon, SIGINT);
-                usleep(2000000); // Let racoon die properly
+                if ((iterations % 5) == 1) {
+                    err = asl_log(asl, aslMsg, ASL_LEVEL_INFO, "racoon PID is %d. Kill it and wait a bit", racoon);
+                    assert(err == 0);
+                    kill(racoon, SIGINT);
+                }
+                usleep(400000); // Let racoon die properly
                 break;
         }
     }
@@ -293,6 +295,15 @@ static OSStatus StartRacoon(const char *confPath,
         if (errno != ENOENT) {
             retval = BASErrnoToOSStatus(errno);
             err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, "unable to delete old PID file: %m");
+            assert(err == 0);
+            return retval;
+        }
+    }
+    // We also remove the logfile
+    if (unlink(logPath) == -1) {
+        if (errno != ENOENT) {
+            retval = BASErrnoToOSStatus(errno);
+            err = asl_log(asl, aslMsg, ASL_LEVEL_ERR, "unable to remove old racoon log file: %m");
             assert(err == 0);
             return retval;
         }
@@ -405,8 +416,15 @@ static OSStatus StartRacoon(const char *confPath,
         close(sock);
         err = asl_log(asl, aslMsg, ASL_LEVEL_INFO, "racoon started successfuly");
         assert(err == 0);
-        return noErr;
+        break;
     }
+    // racoon is started, we modify the owner of the logs to let the user read them.
+    // We use the owner of the socket
+    if (stat(socketPath, &statBuf) != -1) {
+        chown(logPath, statBuf.st_uid, -1);
+    }
+    
+    return noErr;
 }
 
 static OSStatus DoStartStopRacoon(AuthorizationRef auth,
@@ -724,7 +742,6 @@ static OSStatus StartRacoonCtl(const char *socketPath,
             while ((err = waitpid(pid, NULL, 0)) == -1) {
                 if (errno != EINTR) break;
             } // other children are taken care by init
-            sleep(2); sleep(2);
             break;
     }
     // Close the remote ends to our pipes
