@@ -15,7 +15,7 @@
 }
 
 // Enable/disable part of the interfaces depending on the state of various elements
-- (void)handleInterfaceChange: (NSNotification *)notification {
+- (void)handleInterfaceChange: (id)nothing {
     BOOL password = ([[passwordField stringValue] length] > 0);
     BOOL login = ([[loginField stringValue] length] > 0);
     BOOL busy = ([vpn state] != VPNSTATE_DISCONNECTED);
@@ -92,6 +92,7 @@
     [vpnName removeAllItems];
     [vpnName addItemsWithTitles: [vpn availableVpn]];
     [vpnName selectItemWithTitle: [prefs lastVpn]];
+    [vpnName setTarget: self]; [vpnName setAction: @selector(handleInterfaceChange:)];
     [self handleInterfaceChange: nil];
     closeOnDisconnect = NO;
 }
