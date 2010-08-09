@@ -8,6 +8,11 @@
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 
+# We need to be resistent
+trap "" TSTP
+trap "" HUP
+trap "" INT
+
 DEFAULT_GW=$(netstat -rn | awk '($1 == "default") {print $2}')
 IF=$(netstat -rn|awk '($1 == "default"){print $6}')
 if [ "${REMOTE_PORT}" = "4500" ]; then
@@ -30,6 +35,7 @@ cat <<EOF
 Internal address: ${INTERNAL_ADDR4}/${INTERNAL_CIDR4}
    Split network: ${SPLIT_INCLUDE:-not present}
              DNS: ${INTERNAL_DNS4_LIST:-not present}
+  Default domain: ${DEFAULT_DOMAIN:-not present}
 
 EOF
 
@@ -39,6 +45,14 @@ EOF
     exit 2
 }
 
+# For DNS, we need to build the correct paths
+PSID=$( (scutil | grep PrimaryService | sed -e 's/.*PrimaryService : //')<<- EOF
+        open
+        show State:/Network/Global/IPv4
+        quit
+EOF
+)
+
 mask2num() {
    echo obase=2.$1|tr . \;|bc|tr -d 0\\n|wc -c | tr -d '[:blank:]'
 }
@@ -47,8 +61,10 @@ mask2num() {
 # first argument
 case "$1" in
     "phase1_up")
+	# IP
 	echo "Setup ${IF} with IP ${INTERNAL_ADDR4}/${INTERNAL_CIDR4}"
 	ifconfig ${IF} alias ${INTERNAL_ADDR4} netmask ${INTERNAL_NETMASK4}
+	# Routes
 	for NET in ${SPLIT_INCLUDE}; do
 	   echo "Setup route and policy for ${NET}"
 	   NETMASK=$(mask2num $(echo ${NET} | sed 's+.*/++'))
@@ -61,10 +77,40 @@ spdadd ${NET}/${NETMASK}[any] ${INTERNAL_ADDR4}[any] any
        -P in ipsec esp/tunnel/${REMOTE}-${LOCAL}/require;
 EOF
 	done
+	# Setup DNS
+	if [ -n "$INTERNAL_DNS4_LIST" ]; then
+	    echo "Setup DNS"
+	    scutil <<EOF
+open
+get State:/Network/Service/${PSID}/DNS
+set State:/Network/Service/net.orangeportails.vpnoo/OldDNS
+
+d.init
+d.add ServerAddresses * ${INTERNAL_DNS4_LIST}
+d.add DomaineName ${DEFAULT_DOMAIN}
+set State:/Network/Service/${PSID}/DNS
+
+quit
+EOF
+	fi
 	;;
     "phase1_down")
+	# DNS
+	if [ -n "$INTERNAL_DNS4_LIST" ]; then
+	    echo "Restore DNS"
+	    scutil <<EOF
+open
+get State:/Network/Service/${PSID}/DNS
+get State:/Network/Service/net.orangeportails.vpnoo/OldDNS
+set State:/Network/Service/${PSID}/DNS
+remove State:/Network/Service/net.orangeportails.vpnoo/OldDNS
+quit
+EOF
+	fi
+	# IP
 	echo "Remove IP ${INTERNAL_ADDR4}/${INTERNAL_CIDR4} from ${IF}"
 	ifconfig ${IF} delete ${INTERNAL_ADDR4} netmask ${INTERNAL_NETMASK4}
+	# Routes
 	for NET in ${SPLIT_INCLUDE}; do
 	   echo "Remove route an policy for ${NET}"
 	   NETMASK=$(mask2num $(echo ${NET} | sed 's+.*/++'))
