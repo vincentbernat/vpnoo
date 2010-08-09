@@ -4,6 +4,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 // Here are external vpn states.
 enum VpnState {
@@ -20,6 +21,9 @@ enum VpnState {
     NSFileHandle *racoonctlControl; // Handle to close if racoonctl should be closed
     NSTimer *racoonctlTimeout;      // Timer to ensure that racoonctl is not too long
     NSMutableString *racoonctlBuffer; // Data received by racoonctl
+    // Dynamic store
+    CFRunLoopSourceRef dynamicStoreRunLoop;
+    SCDynamicStoreRef dynamicStore;
 }
 
 - (NSArray *)availableVpn;

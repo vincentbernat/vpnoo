@@ -28,6 +28,7 @@
 		6571B427120174C7003DA67C /* vpnooController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B426120174C7003DA67C /* vpnooController.m */; };
 		6571B42D120175A1003DA67C /* vpnooAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B42C120175A1003DA67C /* vpnooAppDelegate.m */; };
 		6571B4A81201AC3B003DA67C /* preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B4A71201AC3B003DA67C /* preferences.m */; };
+		658734AE120FF8E700B20784 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 658734AD120FF8E700B20784 /* SystemConfiguration.framework */; };
 		659D11BD1203146D00ACD385 /* racoon.conf in Resources */ = {isa = PBXBuildFile; fileRef = 659D11551202EFD900ACD385 /* racoon.conf */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -98,6 +99,7 @@
 		6571B430120175AB003DA67C /* vpnooAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vpnooAppDelegate.h; sourceTree = "<group>"; };
 		6571B4A61201AC3B003DA67C /* preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = preferences.h; sourceTree = "<group>"; };
 		6571B4A71201AC3B003DA67C /* preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = preferences.m; sourceTree = "<group>"; };
+		658734AD120FF8E700B20784 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		659D11551202EFD900ACD385 /* racoon.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = racoon.conf; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* vpnoo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "vpnoo-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* vpnoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vpnoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				652BC0681206CC5B004A9262 /* Security.framework in Frameworks */,
+				658734AE120FF8E700B20784 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +169,7 @@
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				658734AD120FF8E700B20784 /* SystemConfiguration.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";

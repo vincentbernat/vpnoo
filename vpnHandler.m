@@ -91,6 +91,29 @@ void VPNLog(NSString *detail) {
     return YES;
 }
 
+#pragma mark **** Dynamic store
+
+// Callbacks when a key has changed
+- (void)maybeDisconnected {
+    if (state != VPNSTATE_CONNECTED) {
+        return;
+    }
+    // We need to check if our key is still here
+    CFPropertyListRef value = SCDynamicStoreCopyValue(dynamicStore,
+                                                      (CFStringRef)[NSString stringWithFormat: @"State:/Network/Service/%@",
+                                                                    [[NSBundle mainBundle] bundleIdentifier]]);
+    if (!value) {
+        // The key does not exist anymore
+        [self disconnectWithError: @"The connection has been unexpectedly terminated. See logs for more details."];
+        return;
+    }
+    CFRelease(value);
+}
+
+static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
+    [(vpnHandler *)info maybeDisconnected];
+}
+
 #pragma mark **** Helper
 
 // Issue an helper request and return the dictionary if it was successful
@@ -507,6 +530,7 @@ void VPNLog(NSString *detail) {
     self = [super init];
     if (self) {
         state = VPNSTATE_DISCONNECTED;
+        // Interface with racoonctl
         racoonctlOutput = nil;
         racoonctlControl = nil;
         racoonctlTimeout = nil;
@@ -515,8 +539,36 @@ void VPNLog(NSString *detail) {
                                                  selector: @selector(gotDataFromRacoonctl:)
                                                      name: NSFileHandleReadCompletionNotification
                                                    object: nil];
+        // Interface with system configuration
+        SCDynamicStoreContext context = {
+            .version         = 0,
+            .info            = self,
+            .retain          = NULL,
+            .release         = NULL,
+            .copyDescription = NULL,
+        };
+        dynamicStore = SCDynamicStoreCreate(NULL,
+                                            (CFStringRef)[[NSBundle mainBundle] bundleIdentifier],
+                                            scCallback,
+                                            &context);
+        dynamicStoreRunLoop = SCDynamicStoreCreateRunLoopSource(NULL, dynamicStore, 0);
+        CFRunLoopAddSource(CFRunLoopGetCurrent(),
+                           dynamicStoreRunLoop,
+                           kCFRunLoopCommonModes);
+        SCDynamicStoreSetNotificationKeys(dynamicStore,
+                                          (CFArrayRef)[NSArray arrayWithObject:
+                                                       [NSString stringWithFormat: @"State:/Network/Service/%@",
+                                                        [[NSBundle mainBundle] bundleIdentifier]]],
+                                          NULL);
     }
     return self;
+}
+
+- (void)dealloc {
+    CFRunLoopRemoveSource(CFRunLoopGetCurrent(), dynamicStoreRunLoop, kCFRunLoopCommonModes);
+    CFRelease(dynamicStoreRunLoop);
+    CFRelease(dynamicStore);
+    [super dealloc];
 }
 
 @end

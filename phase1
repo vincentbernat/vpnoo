@@ -93,6 +93,13 @@ set State:/Network/Service/${PSID}/DNS
 quit
 EOF
 	fi
+	# Done
+	scutil <<EOF
+open
+d.init
+set State:/Network/Service/net.orangeportails.vpnoo
+quit
+EOF
 	;;
     "phase1_down")
 	# DNS
@@ -125,6 +132,12 @@ spddelete ${NET}/${NETMASK}[any] ${INTERNAL_ADDR4}[any] any
        -P in ipsec esp/tunnel/${REMOTE}-${LOCAL}/require;
 EOF
 	done
+	# Done
+	scutil <<EOF
+open
+remove State:/Network/Service/net.orangeportails.vpnoo
+quit
+EOF
 	;;
     *)
 	cat <<EOF
