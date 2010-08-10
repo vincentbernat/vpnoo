@@ -12,9 +12,9 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="608"/>
-			<integer value="603"/>
-			<integer value="57"/>
+			<integer value="607"/>
+			<integer value="29"/>
+			<integer value="372"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -65,7 +65,7 @@
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="238522557">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">About vpnoo</string>
+									<string key="NSTitle">À propos de vpnoo</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -84,7 +84,7 @@
 								</object>
 								<object class="NSMenuItem" id="609285721">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Preferences…</string>
+									<string key="NSTitle">Préférences...</string>
 									<string key="NSKeyEquiv">,</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -132,7 +132,7 @@
 								</object>
 								<object class="NSMenuItem" id="755159360">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Hide vpnoo</string>
+									<string key="NSTitle">Masquer vpnoo</string>
 									<string key="NSKeyEquiv">h</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -141,7 +141,7 @@
 								</object>
 								<object class="NSMenuItem" id="342932134">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Hide Others</string>
+									<string key="NSTitle">Masquer les autres</string>
 									<string key="NSKeyEquiv">h</string>
 									<int key="NSKeyEquivModMask">1572864</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -150,7 +150,7 @@
 								</object>
 								<object class="NSMenuItem" id="908899353">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Show All</string>
+									<string key="NSTitle">Tout afficher</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -170,7 +170,7 @@
 								</object>
 								<object class="NSMenuItem" id="632727374">
 									<reference key="NSMenu" ref="110575045"/>
-									<string key="NSTitle">Quit vpnoo</string>
+									<string key="NSTitle">Quitter vpnoo</string>
 									<string key="NSKeyEquiv">q</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -183,7 +183,7 @@
 					</object>
 					<object class="NSMenuItem" id="952259628">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Edit</string>
+						<string key="NSTitle">Édition</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -191,12 +191,12 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="789758025">
-							<string key="NSTitle">Edit</string>
+							<string key="NSTitle">Édition</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="1058277027">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Undo</string>
+									<string key="NSTitle">Annuler</string>
 									<string key="NSKeyEquiv">z</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -205,7 +205,7 @@
 								</object>
 								<object class="NSMenuItem" id="790794224">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Redo</string>
+									<string key="NSTitle">Rétablir</string>
 									<string key="NSKeyEquiv">Z</string>
 									<int key="NSKeyEquivModMask">1179648</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -225,7 +225,7 @@
 								</object>
 								<object class="NSMenuItem" id="296257095">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Cut</string>
+									<string key="NSTitle">Couper</string>
 									<string key="NSKeyEquiv">x</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -234,7 +234,7 @@
 								</object>
 								<object class="NSMenuItem" id="860595796">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Copy</string>
+									<string key="NSTitle">Copier</string>
 									<string key="NSKeyEquiv">c</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -243,7 +243,7 @@
 								</object>
 								<object class="NSMenuItem" id="29853731">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Paste</string>
+									<string key="NSTitle">Coller</string>
 									<string key="NSKeyEquiv">v</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -252,7 +252,7 @@
 								</object>
 								<object class="NSMenuItem" id="437104165">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Delete</string>
+									<string key="NSTitle">Effacer</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -261,7 +261,7 @@
 								</object>
 								<object class="NSMenuItem" id="583158037">
 									<reference key="NSMenu" ref="789758025"/>
-									<string key="NSTitle">Select All</string>
+									<string key="NSTitle">Tout sélectionner</string>
 									<string key="NSKeyEquiv">a</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -273,7 +273,7 @@
 					</object>
 					<object class="NSMenuItem" id="713487014">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Window</string>
+						<string key="NSTitle">Fenêtre</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
@@ -281,12 +281,12 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="835318025">
-							<string key="NSTitle">Window</string>
+							<string key="NSTitle">Fenêtre</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSMenuItem" id="1011231497">
 									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Minimize</string>
+									<string key="NSTitle">Placer dans le Dock</string>
 									<string key="NSKeyEquiv">m</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -326,13 +326,13 @@
 										<object class="NSTextField" id="335940025">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{131, 110}, {43, 17}}</string>
+											<string key="NSFrame">{{114, 110}, {73, 17}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="905406098">
 												<int key="NSCellFlags">68288064</int>
 												<int key="NSCellFlags2">71304192</int>
-												<string key="NSContents">Login:</string>
+												<string key="NSContents">Identifiant:</string>
 												<object class="NSFont" key="NSSupport" id="794388933">
 													<string key="NSName">LucidaGrande</string>
 													<double key="NSSize">13</double>
@@ -362,7 +362,7 @@
 										<object class="NSTextField" id="35620826">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{179, 108}, {265, 22}}</string>
+											<string key="NSFrame">{{192, 108}, {252, 22}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="906572249">
@@ -392,13 +392,13 @@
 										<object class="NSTextField" id="368642591">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{106, 85}, {68, 17}}</string>
+											<string key="NSFrame">{{95, 85}, {92, 17}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="674243607">
 												<int key="NSCellFlags">68288064</int>
 												<int key="NSCellFlags2">71304192</int>
-												<string key="NSContents">Password:</string>
+												<string key="NSContents">Mot de passe:</string>
 												<reference key="NSSupport" ref="794388933"/>
 												<reference key="NSControlView" ref="368642591"/>
 												<reference key="NSBackgroundColor" ref="526184060"/>
@@ -408,7 +408,7 @@
 										<object class="NSSecureTextField" id="321746025">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{179, 83}, {265, 22}}</string>
+											<string key="NSFrame">{{192, 83}, {252, 22}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSecureTextFieldCell" key="NSCell" id="141284038">
@@ -429,13 +429,13 @@
 										<object class="NSButton" id="836905350">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{200, 59}, {115, 18}}</string>
+											<string key="NSFrame">{{200, 59}, {195, 18}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="1048670147">
 												<int key="NSCellFlags">-2080244224</int>
 												<int key="NSCellFlags2">0</int>
-												<string key="NSContents">Save password</string>
+												<string key="NSContents">Enregistrer le mot de passe</string>
 												<reference key="NSSupport" ref="794388933"/>
 												<reference key="NSControlView" ref="836905350"/>
 												<int key="NSButtonFlags">1211912703</int>
@@ -456,7 +456,7 @@
 										<object class="NSTextField" id="1008915381">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{140, 30}, {34, 17}}</string>
+											<string key="NSFrame">{{153, 30}, {34, 17}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="366659184">
@@ -472,7 +472,7 @@
 										<object class="NSPopUpButton" id="177732119">
 											<reference key="NSNextResponder" ref="469783813"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{176, 23}, {271, 26}}</string>
+											<string key="NSFrame">{{189, 23}, {258, 26}}</string>
 											<reference key="NSSuperview" ref="469783813"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="580578969">
@@ -488,7 +488,7 @@
 												<int key="NSPeriodicInterval">75</int>
 												<object class="NSMenuItem" key="NSMenuItem" id="171026363">
 													<reference key="NSMenu" ref="100227937"/>
-													<string key="NSTitle">vpn name</string>
+													<string key="NSTitle">nom vpn</string>
 													<string key="NSKeyEquiv"/>
 													<int key="NSKeyEquivModMask">1048576</int>
 													<int key="NSMnemonicLoc">2147483647</int>
@@ -605,7 +605,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="87306292">
 								<int key="NSCellFlags">69336577</int>
 								<int key="NSCellFlags2">1346633728</int>
-								<string key="NSContents">Current status</string>
+								<string key="NSContents">Statut actuel</string>
 								<object class="NSFont" key="NSSupport" id="899600248">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -634,7 +634,7 @@
 							<object class="NSButtonCell" key="NSCell" id="646686677">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Connect</string>
+								<string key="NSContents">Connecter</string>
 								<reference key="NSSupport" ref="794388933"/>
 								<reference key="NSControlView" ref="1007979225"/>
 								<int key="NSButtonFlags">-2038284033</int>
@@ -655,7 +655,7 @@
 							<object class="NSButtonCell" key="NSCell" id="626964434">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Disconnect</string>
+								<string key="NSContents">Déconnecter</string>
 								<reference key="NSSupport" ref="794388933"/>
 								<reference key="NSControlView" ref="778582925"/>
 								<int key="NSButtonFlags">-2038284033</int>
@@ -713,7 +713,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{140, 43}, {769, 462}}</string>
 				<int key="NSWTFlags">-461897728</int>
-				<string key="NSWindowTitle">vpnoo's logs</string>
+				<string key="NSWindowTitle">Journaux de vpnoo</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -731,7 +731,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="10298948">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272891904</int>
-								<string key="NSContents">You may get help from your network administrator by providing the following information:</string>
+								<string key="NSContents">Fournissez les informations ci-dessous à votre administrateur réseau afin d'obtenir de l'aide :</string>
 								<reference key="NSSupport" ref="899600248"/>
 								<reference key="NSControlView" ref="475232995"/>
 								<reference key="NSBackgroundColor" ref="526184060"/>
@@ -1384,20 +1384,6 @@
 						<reference key="parent" ref="1046388886"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">24</int>
-						<reference key="object" ref="835318025"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1011231497"/>
-						</object>
-						<reference key="parent" ref="713487014"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">23</int>
-						<reference key="object" ref="1011231497"/>
-						<reference key="parent" ref="835318025"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">371</int>
 						<reference key="object" ref="972006081"/>
 						<object class="NSMutableArray" key="children">
@@ -1429,10 +1415,10 @@
 							<reference ref="321746025"/>
 							<reference ref="177732119"/>
 							<reference ref="836905350"/>
-							<reference ref="368642591"/>
-							<reference ref="335940025"/>
-							<reference ref="1008915381"/>
 							<reference ref="878068621"/>
+							<reference ref="335940025"/>
+							<reference ref="368642591"/>
+							<reference ref="1008915381"/>
 						</object>
 						<reference key="parent" ref="439893737"/>
 					</object>
@@ -1723,6 +1709,20 @@
 						<reference key="object" ref="33508115"/>
 						<reference key="parent" ref="941577366"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">24</int>
+						<reference key="object" ref="835318025"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="1011231497"/>
+						</object>
+						<reference key="parent" ref="713487014"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">23</int>
+						<reference key="object" ref="1011231497"/>
+						<reference key="parent" ref="835318025"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1732,6 +1732,7 @@
 					<string>-3.IBPluginDependency</string>
 					<string>129.IBPluginDependency</string>
 					<string>129.ImportedFromIB2</string>
+					<string>130.IBEditorWindowLastContentRect</string>
 					<string>130.IBPluginDependency</string>
 					<string>130.ImportedFromIB2</string>
 					<string>130.editorWindowContentRectSynchronizationRect</string>
@@ -1855,6 +1856,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>{{592, 842}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{436, 809}, {64, 6}}</string>
@@ -1886,7 +1888,7 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{435, 755}, {151, 153}}</string>
+					<string>{{435, 755}, {208, 153}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{187, 434}, {243, 243}}</string>
@@ -1902,18 +1904,18 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{479, 885}, {140, 23}}</string>
+					<string>{{501, 885}, {211, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{360, 908}, {202, 20}}</string>
+					<string>{{360, 908}, {222, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{484, 287}, {458, 256}}</string>
+					<string>{{529, 476}, {458, 256}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{484, 287}, {458, 256}}</string>
+					<string>{{529, 476}, {458, 256}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<string>{3.40282e+38, 3.40282e+38}</string>
@@ -1947,7 +1949,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{372, 725}, {183, 183}}</string>
+					<string>{{372, 725}, {220, 183}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{23, 794}, {245, 183}}</string>
@@ -1961,9 +1963,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{313, 486}, {769, 462}}</string>
+					<string>{{299, 406}, {769, 462}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{313, 486}, {769, 462}}</string>
+					<string>{{299, 406}, {769, 462}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

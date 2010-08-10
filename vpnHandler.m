@@ -37,7 +37,8 @@ void VPNLog(NSString *detail) {
     plistData = [self vpnList];
     if (!plistData || ([plistData count] == 0)) {
         NSLog(@"no list of VPN found in resources");
-        VPNLog(@"No list of VPN found.");
+        VPNLog(NSLocalizedString(@"No list of VPN found.",
+                                 @"Message displayed when not able to find the list of VPN"));
         return nil;
     }
     // Then return the names as an array
@@ -71,7 +72,8 @@ void VPNLog(NSString *detail) {
                                                 error: &error];
     if (error) {
         NSLog(@"unable to open racoon template `racoon.conf': %@", error);
-        VPNLog(@"Unable to prepare configuration. See logs for more details.");
+        VPNLog(NSLocalizedString(@"Unable to prepare configuration. See logs for more details.",
+                                 @"Message displayed when racoon.conf generation failed"));
         return NO;
     }
     // Make substitutions
@@ -85,7 +87,8 @@ void VPNLog(NSString *detail) {
               error: &error];
     if (error) {
         NSLog(@"unable to write racoon template: %@", error);
-        VPNLog(@"Unable to prepare configuration. See logs for more details.");
+        VPNLog(NSLocalizedString(@"Unable to prepare configuration. See logs for more details.",
+                                 @"Message displayed when racoon.conf generation failed"));
         return NO;
     }
     return YES;
@@ -104,7 +107,8 @@ void VPNLog(NSString *detail) {
                                                                     [[NSBundle mainBundle] bundleIdentifier]]);
     if (!value) {
         // The key does not exist anymore
-        [self disconnectWithError: @"The connection has been unexpectedly terminated. See logs for more details."];
+        [self disconnectWithError: NSLocalizedString(@"The connection has been unexpectedly terminated. See logs for more details.",
+                                                     @"Message displayed when the connections has broken")];
         return;
     }
     CFRelease(value);
@@ -156,27 +160,51 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     switch (failCode) {
         case kBASFailDisabled:
             alertResult = NSRunInformationalAlertPanel(
-                @"Helper tool disabled",
-                @"The helper tool needed to execute priviledged operations seems to have been disabled.",
-                @"Repair the helper tool", @"Do nothing", NULL);
+                NSLocalizedString(@"Helper tool disabled",
+                                  @"Dialog title when helper tool is disabled"),
+                NSLocalizedString(@"The helper tool needed to execute priviledged operations seems to have been disabled.",
+                                  @"Dialog message when helper tool is disabled"),
+                NSLocalizedString(@"Repair the helper tool",
+                                  @"Button label for repairing helper tool"),
+                NSLocalizedString(@"Do nothing",
+                                  @"Button label for doing nothing"),
+                NULL);
             break;
         case kBASFailPartiallyInstalled:
             alertResult = NSRunInformationalAlertPanel(
-                @"Helper tool partially installed",
-                @"The helper tool needed to execute priviledged operations seems to have been partially installed.",
-                @"Reinstall the helper tool", @"Do nothing", NULL);
+                NSLocalizedString(@"Helper tool partially installed",
+                                  @"Dialog title when helper tool is partially installed"),
+                NSLocalizedString(@"The helper tool needed to execute priviledged operations seems to have been partially installed.",
+                                  @"Dialog message when helper tool is partially installed"),
+                NSLocalizedString(@"Reinstall the helper tool",
+                                  @"Button label to reinstall helper tool"),
+                NSLocalizedString(@"Do nothing",
+                                  @"Button label for doing nothing"),
+                NULL);
             break;
         case kBASFailNotInstalled:
             alertResult = NSRunInformationalAlertPanel(
-                @"Helper tool needed",
-                @"An helper tool is needed to execute priviledged operations.",
-                @"Install the helper tool", @"Do nothing", NULL);
+                NSLocalizedString(@"Helper tool needed",
+                                  @"Dialog title when helper tool need to be installed"),
+                NSLocalizedString(@"An helper tool is needed to execute priviledged operations.",
+                                  @"Dialog message when helper tool need to be installed"),
+                NSLocalizedString(@"Install the helper tool",
+                                  @"Button label to install helper tool"),
+                NSLocalizedString(@"Do nothing",
+                                  @"Button label for doing nothing"),
+                NULL);
             break;
         default:
             alertResult = NSRunInformationalAlertPanel(
-                @"Helper tool failed",
-                @"The helper tool needed to execute priviledged operations did not succeed. Please, look at the logs to find possible causes.",
-                @"Do nothing", @"Reinstall the helper tool", NULL);
+                NSLocalizedString(@"Helper tool failed",
+                                  @"Dialog title when a generic error happened with helper tool"),
+                NSLocalizedString(@"The helper tool needed to execute priviledged operations did not succeed. Please, look at the logs to find possible causes.",
+                                  @"Dialog message when a generic error happened with helper tool"),
+                NSLocalizedString(@"Do nothing",
+                                  @"Button label for doing nothing"),
+                NSLocalizedString(@"Reinstall the helper tool",
+                                  @"Button label to reinstall helper tool"),
+                NULL);
             if (alertResult == NSAlertDefaultReturn) {
                 alertResult = NSAlertAlternateReturn;
             } else if (alertResult == NSAlertAlternateReturn) {
@@ -230,9 +258,15 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
         return YES;
     }
     alertresult = NSRunInformationalAlertPanel(
-            @"Helper tool needs to be updated",
-            @"The helper tool needed to execute priviledged operations needs to be updated.",
-            @"Update", @"Do nothing", NULL);
+            NSLocalizedString(@"Helper tool needs to be updated",
+                              @"Dialog title when helper tool needs to be updated"),
+            NSLocalizedString(@"The helper tool needed to execute priviledged operations needs to be updated.",
+                              @"Dialog message when helper tool needs to be updated"),
+            NSLocalizedString(@"Update",
+                              @"Button label to update the helper tool"),
+            NSLocalizedString(@"Do nothing",
+                              @"Button label for doing nothing"),
+            NULL);
     if (alertresult != NSAlertDefaultReturn) {
         NSLog(@"helper tool is not up-to-date");
         return NO;
@@ -327,31 +361,39 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
             // We got an error, let's try to find which
             NSString *error = [self extractDataBeginningWith: @"Error: "];
             if (!error) {
-                [self disconnectWithError: @"An error occurred while connecting. See logs for more details."];
+                [self disconnectWithError: NSLocalizedString(@"An error occurred while connecting. See logs for more details.",
+                                                             @"Error message when an error was sent by racoonctl")];
                 return;
             }
             NSDictionary *reasons = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"Your credentials are incorrect or you don't have right to connect to this system.",
+                                     NSLocalizedString(@"Your credentials are incorrect or you don't have right to connect to this system.",
+                                                       @"Error message for 'Xauth exchange failed'"),
                                      @"Xauth exchange failed",
-                                     @"The first phase has failed. This may be a certificate problem.",
+                                     NSLocalizedString(@"The first phase has failed. This may be a certificate problem.",
+                                                       @"Error message for 'Peer failed phase 1 authentication'"),
                                      @"Peer failed phase 1 authentication (certificate problem?)",
-                                     @"The remote end did not agree with the security parameters.",
+                                     NSLocalizedString(@"The remote end did not agree with the security parameters.",
+                                                       @"Error message for 'Peer failed phase 1 initiation"),
                                      @"Peer failed phase 1 initiation (proposal problem?)",
-                                     @"The remote end did not answer our sollicitations.",
+                                     NSLocalizedString(@"The remote end did not answer our sollicitations.",
+                                                       @"Error message for 'Peer not responsing'"),
                                      @"Peer not responsing",
                                      nil];
             NSString *reason = [reasons objectForKey: error];
             if (reason) {
-                [self disconnectWithError: [NSString stringWithFormat: @"Unable to connect to the VPN. %@", reason]];
+                [self disconnectWithError: [NSString stringWithFormat: NSLocalizedString(@"Unable to connect to the VPN. %@",
+                                                                                         @"Prefix for error from racoonctl"), reason]];
                 return;
             }
             [self disconnectWithError:
-             [NSString stringWithFormat: @"Unable to connect to the VPN. We got this error: %@", error]];
+             [NSString stringWithFormat: NSLocalizedString(@"Unable to connect to the VPN. We got this error: %@",
+                                                           @"Generic error message from racoonctl"), error]];
             return;
         }
         state = VPNSTATE_CONNECTED;
         NSLog(@"vpn connected with IP %@", ip);
-        VPNLog([NSString stringWithFormat: @"Connected with IP %@.", ip]);
+        VPNLog([NSString stringWithFormat: NSLocalizedString(@"Connected with IP %@.",
+                                                             @"Message for succesful connection"), ip]);
         // racoonctl died
         [self killRacoonctl];
         return;
@@ -382,7 +424,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     NSLog(@"got a timeout while connecting. Disconnecting");
     NSLog(@"available data from racoonctl:\n%@", racoonctlBuffer);
     [self killRacoonctl];
-    [self disconnectWithError: @"Connection timeout. See logs for more details."];
+    [self disconnectWithError: NSLocalizedString(@"Connection timeout. See logs for more details.",
+                                                 @"Message for connection timeout")];
 }
 
 // Initiate the VPN with racoonctl
@@ -408,7 +451,8 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
                nil];
     response = [self helperRequest: request];
     if (response == NULL) {
-        [self disconnectWithError: @"Unable to request VPN creation. See logs for more details."];
+        [self disconnectWithError: NSLocalizedString(@"Unable to request VPN creation. See logs for more details.",
+                                                     @"Message when racoonctl was not invoked correctly")];
         return;
     }
     
@@ -439,11 +483,12 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
     if (![self handleRacoonFor: [NSNumber numberWithInt: kVpnooStartRacoon]]) {
         state = VPNSTATE_DISCONNECTED;
-        VPNLog(@"Unable to start racoon daemon. See logs for more details.");
+        VPNLog(NSLocalizedString(@"Unable to start racoon daemon. See logs for more details.",
+                                 @"Message when racoon was not invoked correctly"));
         return;
     }
     
-    VPNLog(@"Connecting to VPN...");
+    VPNLog(NSLocalizedString(@"Connecting to VPN...", @"Message de connexion au VPN"));
     // Use a timer to let the interface refresh
     [NSTimer scheduledTimerWithTimeInterval: 0.1
                                      target: self
@@ -462,7 +507,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
     state = VPNSTATE_CONNECTING;
     NSLog(@"connecting to `%@' using login `%@'", name, login);
-    VPNLog(@"Initializing VPN...");
+    VPNLog(NSLocalizedString(@"Initializing VPN...", @"Status message when starting VPN"));
     // Use a timer to let the interface refresh
     [NSTimer scheduledTimerWithTimeInterval: 0.1
                                      target: self
@@ -484,14 +529,14 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     if (![self handleRacoonFor: [NSNumber numberWithInt: kVpnooStopRacoon]]) {
         state = VPNSTATE_DISCONNECTED;
         if (![timer userInfo]) {
-            VPNLog(@"Disconnected (but...)");
+            VPNLog(NSLocalizedString(@"Disconnected (but...)", @"Disconnected but an error may have occurred"));
         } else {
             VPNLog([timer userInfo]);
         }
     } else {
         state = VPNSTATE_DISCONNECTED;
         if (![timer userInfo]) {
-            VPNLog(@"Disconnected.");
+            VPNLog(NSLocalizedString(@"Disconnected.", @"Disconnected message"));
         } else {
             VPNLog([timer userInfo]);
         }
@@ -505,7 +550,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
     }
     state = VPNSTATE_DISCONNECTING;
     NSLog(@"disconnect from VPN");
-    VPNLog(@"Disconnecting...");
+    VPNLog(NSLocalizedString(@"Disconnecting...", @"Disconnection in progress"));
     // Use a timer to let the interface refresh
     [NSTimer scheduledTimerWithTimeInterval: 0.1
                                      target: self

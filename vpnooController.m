@@ -176,7 +176,7 @@ noasl:
     [loginField setStringValue: [prefs login]];
     [passwordField setStringValue: [prefs password]];
     [savePassword setState: ([prefs savePassword]?NSOnState:NSOffState)];
-    [statusText setStringValue: @"Not connected."];
+    [statusText setStringValue: NSLocalizedString(@"Not connected.", @"Status message when not connected")];
     [vpnName removeAllItems];
     [vpnName addItemsWithTitles: [vpn availableVpn]];
     [vpnName selectItemWithTitle: [prefs lastVpn]];

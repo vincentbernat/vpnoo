@@ -21,6 +21,6 @@ int main(int argc, char *argv[])
     BASSetDefaultRules(gAuth,
                        kVpnooCommandSet,
                        CFBundleGetIdentifier(CFBundleGetMainBundle()),
-                       NULL);
+                       CFSTR("Localizable.strings"));
     return NSApplicationMain(argc,  (const char **) argv);
 }

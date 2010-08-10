@@ -12,9 +12,16 @@
 - (BOOL)windowShouldClose:(id)sender {
     NSInteger status;
     if ([vpn state] != VPNSTATE_DISCONNECTED) {
-        status = NSRunInformationalAlertPanel(@"VPN is still active",
-                                              @"The VPN is still active. Closing the application will disconnect it.",
-                                              @"Don't close", @"Disconnect and close", nil);
+        status = NSRunInformationalAlertPanel(
+            NSLocalizedString(@"VPN is still active",
+                              @"Dialog title when trying to close while VPN is connected"),
+            NSLocalizedString(@"The VPN is still active. Closing the application will disconnect it.",
+                              @"Dialog message when trying to close while VPN is connected"),
+            NSLocalizedString(@"Don't close",
+                              @"Button label to dismiss closing"),
+            NSLocalizedString(@"Disconnect and close",
+                              @"Button label to acknowledge closing"),
+            nil);
         if (status == NSAlertDefaultReturn) {
             return NO;
         }

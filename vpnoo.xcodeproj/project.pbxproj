@@ -28,6 +28,7 @@
 		6571B427120174C7003DA67C /* vpnooController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B426120174C7003DA67C /* vpnooController.m */; };
 		6571B42D120175A1003DA67C /* vpnooAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B42C120175A1003DA67C /* vpnooAppDelegate.m */; };
 		6571B4A81201AC3B003DA67C /* preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6571B4A71201AC3B003DA67C /* preferences.m */; };
+		658134D212115B7800EE7684 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 658134D012115B7800EE7684 /* Localizable.strings */; };
 		658734AE120FF8E700B20784 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 658734AD120FF8E700B20784 /* SystemConfiguration.framework */; };
 		659D11BD1203146D00ACD385 /* racoon.conf in Resources */ = {isa = PBXBuildFile; fileRef = 659D11551202EFD900ACD385 /* racoon.conf */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -97,6 +98,9 @@
 		6571B430120175AB003DA67C /* vpnooAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vpnooAppDelegate.h; sourceTree = "<group>"; };
 		6571B4A61201AC3B003DA67C /* preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = preferences.h; sourceTree = "<group>"; };
 		6571B4A71201AC3B003DA67C /* preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = preferences.m; sourceTree = "<group>"; };
+		658134C61211466400EE7684 /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		658134D112115B7800EE7684 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		658134D512115CD900EE7684 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		658734AD120FF8E700B20784 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		659D11551202EFD900ACD385 /* racoon.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = racoon.conf; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* vpnoo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "vpnoo-Info.plist"; sourceTree = "<group>"; };
@@ -212,6 +216,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				658134D012115B7800EE7684 /* Localizable.strings */,
 				6518156B1209679100044973 /* phase1 */,
 				652A65761201CE2D000F8DD6 /* vpnoo.icns */,
 				8D1107310486CEB800E47090 /* vpnoo-Info.plist */,
@@ -316,6 +321,7 @@
 				6509996C1202B97C0090E19F /* vpn.plist in Resources */,
 				659D11BD1203146D00ACD385 /* racoon.conf in Resources */,
 				6518156C1209679100044973 /* phase1 in Resources */,
+				658134D212115B7800EE7684 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,8 +382,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				1DDD58150DA1D0A300B32029 /* English */,
+				658134C61211466400EE7684 /* French */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		658134D012115B7800EE7684 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				658134D112115B7800EE7684 /* English */,
+				658134D512115CD900EE7684 /* French */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
