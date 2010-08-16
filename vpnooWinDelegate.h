@@ -10,6 +10,7 @@
 @interface vpnooWinDelegate : NSObject {
     IBOutlet vpnHandler *vpn;
     IBOutlet vpnooController *controller;
+    IBOutlet NSWindow *window;
 }
 
 @end

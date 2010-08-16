@@ -18,7 +18,7 @@ What vpnoo does:
 
 What vpnoo does not:
  - It does not ask for certificate or PSK, just login/password (see
-   `Installation`_).
+   `Installation`_ and `Certificate installation`_).
  - It does not do plain IPsec, nor L2TP over IPsec.
  - It does not allow to setup several tunnels at once, it even
    conflicts with built-in tunnels because it kills system racoon.
@@ -69,6 +69,18 @@ The user will download its own DMG image from some semi-secure
 repository (it is password protected but if somebody is able to
 replace the image by its own, this is pretty bad), double click on
 vpnoo icon, enter login and password and will be connected.
+
+Certificate installation
+------------------------
+
+We said earlier that it is not possible for the user to install its
+own certificate. This is not true. There is a hidden trick that will
+allow a user to update its certificate: the user needs to drag and
+drop its certificate on vpnoo window. The certificate must be in
+PKCS#12 format. The certificate may be password protected. The
+certificate must contain a user certificate, a user private key for
+this certificate and a CA certificate. It will be installed as
+``user.pem``, ``user.key`` and ``cacert.pem``.
 
 Compatibility
 -------------

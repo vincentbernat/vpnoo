@@ -472,6 +472,10 @@
 				GCC_PREFIX_HEADER = vpnoo_Prefix.pch;
 				INFOPLIST_FILE = "vpnoo-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+				);
 				PRODUCT_NAME = vpnoo;
 			};
 			name = Debug;
@@ -486,6 +490,10 @@
 				GCC_PREFIX_HEADER = vpnoo_Prefix.pch;
 				INFOPLIST_FILE = "vpnoo-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+				);
 				PRODUCT_NAME = vpnoo;
 			};
 			name = Release;
